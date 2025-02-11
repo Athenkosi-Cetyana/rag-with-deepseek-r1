@@ -125,4 +125,4 @@ def ask_question_from_server():
         return jsonify({'error': f'Model {model} not available at the moment'}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run()
