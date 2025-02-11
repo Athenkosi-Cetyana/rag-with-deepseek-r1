@@ -1,1 +1,39 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vela RAG - AI Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>📘 Botlhale AI Chat</h1>
+    <form id="chat-form">
+        <label for="model-select">Choose a model:</label>
+        <select id="model-select" name="model">
+            <option value="deepseek-r1:1.5b" title="Vela Model 1 (deepseek-r1:1.5b)">Vela Model 1</option>
+            <option value="deepseek-r1:3b" title="Vela Model 2 (deepseek-r1:3b)">Vela Model 2</option>
+            <option value="deepseek-r1:6b" title="Vela Model 3 (deepseek-r1:6b)">Vela Model 3</option>
+        </select>
+        <input type="text" name="query" placeholder="Enter your question...">
+        <button type="submit">Ask</button>
+    </form>
+    <div id="chat-response"></div>
+    <script>
+        document.getElementById('chat-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const query = event.target.query.value;
+            const model = event.target.model.value;
+            const response = await fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query, model })
+            });
+            const result = await response.json();
+            document.getElementById('chat-response').innerText = result.answer;
+        });
+    </script>
+</body>
+</html>
